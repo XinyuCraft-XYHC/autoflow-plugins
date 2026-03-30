@@ -1,0 +1,10 @@
+{
+  "id": "http_request",
+  "name": "HTTP 请求",
+  "version": "1.0.0",
+  "author": "AutoFlow Community",
+  "description": "发送 HTTP GET/POST 请求，支持 JSON、表单、自定义 Headers，结果存入变量",
+  "tags": ["HTTP", "API", "网络", "请求"],
+  "min_autoflow_version": "4.0.0",
+  "entry": "main.py"
+}
