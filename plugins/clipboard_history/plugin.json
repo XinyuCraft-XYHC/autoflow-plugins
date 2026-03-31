@@ -1,10 +1,11 @@
 {
   "id": "clipboard_history",
   "name": "剪贴板历史",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": "AutoFlow Community",
   "description": "记录剪贴板历史，支持搜索、快速粘贴指定历史条目",
   "tags": ["剪贴板", "效率", "历史"],
   "min_autoflow_version": "4.0.0",
   "entry": "main.py"
 }
+

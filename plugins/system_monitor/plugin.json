@@ -1,10 +1,11 @@
 {
   "id": "system_monitor",
   "name": "系统监控",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": "AutoFlow Community",
   "description": "实时监控 CPU、内存、磁盘使用率，提供系统信息获取功能块",
   "tags": ["监控", "系统", "CPU", "内存"],
   "min_autoflow_version": "4.0.0",
   "entry": "main.py"
 }
+
