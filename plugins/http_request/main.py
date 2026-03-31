@@ -2,7 +2,13 @@
 HTTP 请求插件 - HTTP Request
 发送 GET/POST 等 HTTP 请求，结果存入变量
 """
-from autoflow_plugin_api import PluginBase
+try:
+    from autoflow_plugin_api import AutoFlowPlugin
+    PluginBase = AutoFlowPlugin
+except ImportError:
+    class PluginBase:
+        def get_blocks(self): return []
+        def execute_block(self, block_type, params, ctx): return {}
 
 
 class HttpRequestPlugin(PluginBase):
@@ -61,7 +67,8 @@ class HttpRequestPlugin(PluginBase):
             },
         ]
 
-    def execute_block(self, block_type: str, fields: dict, variables: dict) -> dict:
+    def execute_block(self, block_type: str, params: dict, ctx=None) -> dict:
+        fields = params if isinstance(params, dict) else {}
         import urllib.request
         import urllib.parse
         import json as _json
@@ -126,5 +133,12 @@ class HttpRequestPlugin(PluginBase):
         return {"success": False, "error": f"未知块类型: {block_type}"}
 
 
-def register():
-    return HttpRequestPlugin()
+def register(api=None):
+    """
+    支持新版 register(api) 和旧版 register() 两种调用方式。
+    """
+    plugin = HttpRequestPlugin()
+    if api is not None and hasattr(api, "register_plugin"):
+        api.register_plugin(plugin)
+    else:
+        return plugin

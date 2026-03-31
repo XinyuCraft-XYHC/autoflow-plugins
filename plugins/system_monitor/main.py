@@ -1,16 +1,25 @@
 """
 系统监控插件 - System Monitor
 提供 CPU、内存、磁盘信息获取功能块
+
+兼容 AutoFlow v4.0+ 新版插件 API。
 """
-from autoflow_plugin_api import PluginBase
+try:
+    from autoflow_plugin_api import AutoFlowPlugin
+    PluginBase = AutoFlowPlugin
+except ImportError:
+    class PluginBase:
+        def get_blocks(self): return []
+        def execute_block(self, block_type, params, ctx): return {}
 
 
 class SystemMonitorPlugin(PluginBase):
+
     def get_info(self):
         return {
             "id": "system_monitor",
             "name": "系统监控",
-            "version": "1.0.0",
+            "version": "2.0.0",
             "author": "AutoFlow Community",
             "description": "实时监控 CPU、内存、磁盘使用率",
         }
@@ -60,7 +69,10 @@ class SystemMonitorPlugin(PluginBase):
             },
         ]
 
-    def execute_block(self, block_type: str, fields: dict, variables: dict) -> dict:
+    def execute_block(self, block_type: str, params: dict, ctx=None) -> dict:
+        # 兼容旧版 execute_block(block_type, fields, variables) 签名
+        fields = params if isinstance(params, dict) else {}
+
         try:
             import psutil
         except ImportError:
@@ -99,5 +111,12 @@ class SystemMonitorPlugin(PluginBase):
         return {"success": False, "error": f"未知块类型: {block_type}"}
 
 
-def register():
-    return SystemMonitorPlugin()
+def register(api=None):
+    """
+    支持新版 register(api) 和旧版 register() 两种调用方式。
+    """
+    plugin = SystemMonitorPlugin()
+    if api is not None and hasattr(api, "register_plugin"):
+        api.register_plugin(plugin)
+    else:
+        return plugin

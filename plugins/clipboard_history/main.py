@@ -1,15 +1,24 @@
 """
 剪贴板历史插件 - Clipboard History
-记录并管理剪贴板历史
+记录并管理剪贴板历史，支持搜索、快速粘贴
+
+兼容 AutoFlow v4.0+ 新版插件 API。
 """
 import threading
 import time
-from autoflow_plugin_api import PluginBase
+
+try:
+    from autoflow_plugin_api import AutoFlowPlugin
+    PluginBase = AutoFlowPlugin
+except ImportError:
+    class PluginBase:
+        def get_blocks(self): return []
+        def execute_block(self, block_type, params, ctx): return {}
 
 
 class ClipboardHistoryPlugin(PluginBase):
     def __init__(self):
-        self._history = []          # list of str
+        self._history = []
         self._max_items = 50
         self._monitor_thread = None
         self._running = False
@@ -19,7 +28,7 @@ class ClipboardHistoryPlugin(PluginBase):
         return {
             "id": "clipboard_history",
             "name": "剪贴板历史",
-            "version": "1.0.0",
+            "version": "2.0.0",
             "author": "AutoFlow Community",
             "description": "记录剪贴板历史，支持搜索、快速粘贴指定历史条目",
         }
@@ -106,7 +115,9 @@ class ClipboardHistoryPlugin(PluginBase):
             },
         ]
 
-    def execute_block(self, block_type: str, fields: dict, variables: dict) -> dict:
+    def execute_block(self, block_type: str, params: dict, ctx=None) -> dict:
+        fields = params if isinstance(params, dict) else {}
+
         if block_type == "cb_get_history":
             idx = int(fields.get("index", 0))
             output_var = fields.get("output_var", "cb_text")
@@ -140,5 +151,12 @@ class ClipboardHistoryPlugin(PluginBase):
         return {"success": False, "error": f"未知块类型: {block_type}"}
 
 
-def register():
-    return ClipboardHistoryPlugin()
+def register(api=None):
+    """
+    支持新版 register(api) 和旧版 register() 两种调用方式。
+    """
+    plugin = ClipboardHistoryPlugin()
+    if api is not None and hasattr(api, "register_plugin"):
+        api.register_plugin(plugin)
+    else:
+        return plugin
