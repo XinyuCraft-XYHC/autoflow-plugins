@@ -1,0 +1,10 @@
+{
+  "id": "custom_dialog",
+  "name": "自定义弹窗",
+  "version": "1.0.0",
+  "author": "AutoFlow Official",
+  "description": "弹出高度可自定义的对话框，支持文本、输入框、下拉选择、复选框等多种控件混搭，用户操作结果存入变量",
+  "tags": ["弹窗", "对话框", "输入", "交互", "UI"],
+  "min_autoflow_version": "4.0.0",
+  "entry": "main.py"
+}

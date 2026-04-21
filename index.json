@@ -38,6 +38,25 @@
     "issues_url": "https://github.com/XinyuCraft-XYHC/autoflow-plugins/issues"
   },
   {
+    "id": "custom_dialog",
+    "name": "自定义弹窗",
+    "name_en": "Custom Dialog",
+    "version": "1.0.0",
+    "author": "AutoFlow Official",
+    "description": "弹出高度可自定义的对话框，支持文本、输入框、下拉选择、复选框等多种控件混搭，用户操作结果存入变量",
+    "description_en": "Show a fully customizable dialog with text, input, dropdown, checkbox and more; store user responses to variables",
+    "tags": ["弹窗", "对话框", "输入", "交互", "UI"],
+    "download_url": "https://github.com/XinyuCraft-XYHC/autoflow-plugins/archive/refs/heads/master.zip",
+    "plugin_dir_in_zip": "autoflow-plugins-master/plugins/custom_dialog",
+    "updated": "2026-04-21",
+    "stars": 0,
+    "downloads": 0,
+    "verified": true,
+    "min_autoflow_version": "4.0.0",
+    "repository": "https://github.com/XinyuCraft-XYHC/autoflow-plugins",
+    "issues_url": "https://github.com/XinyuCraft-XYHC/autoflow-plugins/issues"
+  },
+  {
     "id": "http_request",
     "name": "HTTP 请求",
     "name_en": "HTTP Request",
